@@ -10,5 +10,6 @@ public class ShiftsLoggerDbContext : DbContext
     }
 
     public DbSet<Shift> Shifts { get; set; }
+    public DbSet<Employee> Employees { get; set; }
 
 }
