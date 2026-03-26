@@ -3,17 +3,34 @@
 public class Shift
 {
     public int Id { get; set; }
-    public required DateTime StartTime { get; set; }
-    public required DateTime EndTime { get; set; }
-    public required TimeSpan Duration { get; set; }
+    public DateTime StartTime { get; private set; }
+    public DateTime EndTime { get; private set; }
+    public TimeSpan Duration { get; private set; }
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; } = null!;
 
-    public TimeSpan CalculateDuration()
+    public Shift(DateTime start, DateTime end, int employeeId)
     {
-        return EndTime - StartTime;
+        SetTimes(start, end);
+        EmployeeId = employeeId;
     }
 
-    // validate inside a setter?
+    public void UpdateTimes(DateTime start, DateTime end)
+    {
+        SetTimes(start, end);
+    }
+
+    private void SetTimes(DateTime start, DateTime end)
+    {
+        if (end < start)
+            throw new ArgumentException("End time can't be before start time");
+
+        if (end == start)
+            throw new ArgumentException("times cannot be equal");
+
+        StartTime = start;
+        EndTime = end;
+        Duration = end - start;
+    }
 
 }
