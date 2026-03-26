@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShiftsLogger.Data;
 
@@ -11,9 +12,11 @@ using ShiftsLogger.Data;
 namespace ShiftsLogger.Migrations
 {
     [DbContext(typeof(ShiftsLoggerDbContext))]
-    partial class ShiftsLoggerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260326011324_ChangeModel")]
+    partial class ChangeModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

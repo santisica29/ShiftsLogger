@@ -9,9 +9,9 @@ public class Shift
     public int EmployeeId { get; set; }
     public Employee Employee { get; set; } = null!;
 
-    public Shift(DateTime start, DateTime end, int employeeId)
+    public Shift(DateTime startTime, DateTime endTime, int employeeId)
     {
-        SetTimes(start, end);
+        SetTimes(startTime, endTime);
         EmployeeId = employeeId;
     }
 
