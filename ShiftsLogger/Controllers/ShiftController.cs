@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using ShiftsLogger.Interfaces;
 using ShiftsLogger.Models;
 
@@ -17,31 +18,41 @@ public class ShiftController : Controller
     [HttpGet]
     public ActionResult<List<Shift>> GetAllShifts()
     {
-        return Ok(_shiftService.GetAllShifts());
+        var response = _shiftService.GetAllShifts();
+
+        return response.IsSuccessful ? Ok(response) : BadRequest(response); 
     }
 
     [HttpGet("{id}")]
     public ActionResult<Shift> GetShiftById(int id)
     {
-        return Ok(_shiftService.GetShiftById(id));
+        var response = _shiftService.GetShiftById(id);
+
+        return response.IsSuccessful ? Ok(response) : BadRequest(response);
     }
 
     [HttpPost]
-    public ActionResult<Shift> CreateShift(Shift Shift)
+    public ActionResult<Shift> CreateShift(Shift shift)
     {
-        return Ok(_shiftService.CreateShift(Shift));
+        var response = _shiftService.CreateShift(shift);
+
+        return response.IsSuccessful ? Ok(response) : BadRequest(response);
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Shift> UpdateShift(int id, Shift updatedShift)
+    public ActionResult<Shift> UpdateShift(int id, ShiftDTO updatedShift)
     {
-        return Ok(_shiftService.UpdateShift(id, updatedShift));
+        var response = _shiftService.UpdateShift(id, updatedShift);
+
+        return response.IsSuccessful ? Ok(response) : BadRequest(response);
     }
 
     [HttpDelete("{id}")]
     public ActionResult<string> DeleteShift(int id)
     {
-        return Ok(_shiftService.DeleteShift(id));
+        var response = _shiftService.DeleteShift(id);
+
+        return response.IsSuccessful ? Ok(response) : BadRequest(response);
     }
 }
 

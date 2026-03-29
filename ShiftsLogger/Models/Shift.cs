@@ -6,13 +6,10 @@ public class Shift
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public TimeSpan Duration { get; private set; }
-    public int EmployeeId { get; set; }
-    public Employee Employee { get; set; } = null!;
 
-    public Shift(DateTime startTime, DateTime endTime, int employeeId)
+    public Shift(DateTime startTime, DateTime endTime)
     {
         SetTimes(startTime, endTime);
-        EmployeeId = employeeId;
     }
 
     public void UpdateTimes(DateTime start, DateTime end)

@@ -12,8 +12,8 @@ using ShiftsLogger.Data;
 namespace ShiftsLogger.Migrations
 {
     [DbContext(typeof(ShiftsLoggerDbContext))]
-    [Migration("20260321153749_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260329203036_initialcreate")]
+    partial class initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,23 +25,6 @@ namespace ShiftsLogger.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ShiftsLogger.Models.Employee", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
-                });
-
             modelBuilder.Entity("ShiftsLogger.Models.Shift", b =>
                 {
                     b.Property<int>("Id")
@@ -50,8 +33,8 @@ namespace ShiftsLogger.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -61,20 +44,7 @@ namespace ShiftsLogger.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("Shifts");
-                });
-
-            modelBuilder.Entity("ShiftsLogger.Models.Shift", b =>
-                {
-                    b.HasOne("ShiftsLogger.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

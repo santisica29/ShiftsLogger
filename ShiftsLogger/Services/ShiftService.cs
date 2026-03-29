@@ -1,4 +1,5 @@
-﻿using ShiftsLogger.Data;
+﻿using Humanizer;
+using ShiftsLogger.Data;
 using ShiftsLogger.Interfaces;
 using ShiftsLogger.Models;
 
@@ -15,6 +16,9 @@ public class ShiftService : IShiftService
 
     public ServiceResponse<Shift> CreateShift(Shift shift)
     {
+        if (shift.EndTime <= shift.StartTime)
+            return ServiceResponse<Shift>.Failure("End time must be after start time");
+
         var savedShift = _dbContext.Shifts.Add(shift);
         _dbContext.SaveChanges();
 
@@ -54,12 +58,15 @@ public class ShiftService : IShiftService
         return ServiceResponse<Shift>.Success(shift, "Shift retrieve correctly");
     }
 
-    public ServiceResponse UpdateShift(int id, Shift updatedShift)
+    public ServiceResponse UpdateShift(int id, ShiftDTO updatedShift)
     {
         Shift? savedShift = _dbContext.Shifts.Find(id);
 
         if (savedShift == null)
             return ServiceResponse.Failure($"Shift with id {id} not found.");
+
+        if (updatedShift.EndTime <= updatedShift.StartTime)
+            return ServiceResponse<Shift>.Failure("End time must be after start time");
 
         savedShift.UpdateTimes(updatedShift.StartTime, updatedShift.EndTime);
 
