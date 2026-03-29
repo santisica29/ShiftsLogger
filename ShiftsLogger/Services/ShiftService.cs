@@ -13,52 +13,58 @@ public class ShiftService : IShiftService
         _dbContext = dbContext;
     }
 
-    public ServiceResponse<Shift> CreateShift(Shift Shift)
+    public ServiceResponse<Shift> CreateShift(Shift shift)
     {
-        var savedShift = _dbContext.Shifts.Add(Shift);
+        var savedShift = _dbContext.Shifts.Add(shift);
         _dbContext.SaveChanges();
-       
-        return new ServiceResponse<Shift>
-        {
-            IsSuccessful = true,
-            Message = "Shift created successfully",
-            Data = savedShift.Entity
-        };
+
+        return ServiceResponse<Shift>.Success(savedShift.Entity, $"Shift with Id {shift.Id} created successfully");
     }
 
-    public string? DeleteShift(int id)
+    public ServiceResponse DeleteShift(int id)
     {
         Shift? savedShift = _dbContext.Shifts.Find(id);
 
         if (savedShift == null)
-            return null;
+            return ServiceResponse.Failure($"Shift with Id {id} doesn't exists.");
 
         _dbContext.Shifts.Remove(savedShift);
         _dbContext.SaveChanges();
 
-        return $"Successfully deleted shift with id {id}";
+        return ServiceResponse.Success($"Successfully deleted shift with id {id}");
     }
 
-    public List<Shift> GetAllShifts()
+    public ServiceResponse<List<Shift>> GetAllShifts()
     {
-        return _dbContext.Shifts.ToList();
+        var list = _dbContext.Shifts.ToList();
+
+        if (list.Count == 0)
+            return ServiceResponse<List<Shift>>.Failure("No data");
+
+        return ServiceResponse<List<Shift>>.Success(list, "Success");
     }
 
-    public Shift? GetShiftById(int id)
+    public ServiceResponse<Shift> GetShiftById(int id)
     {
-        return _dbContext.Shifts.Find(id);
+        var shift = _dbContext.Shifts.Find(id);
+
+        if (shift == null)
+            return ServiceResponse<Shift>.Failure($"No shift found with id {id}");
+
+        return ServiceResponse<Shift>.Success(shift, "Shift retrieve correctly");
     }
 
-    public Shift UpdateShift(int id, Shift updatedShift)
+    public ServiceResponse UpdateShift(int id, Shift updatedShift)
     {
         Shift? savedShift = _dbContext.Shifts.Find(id);
 
         if (savedShift == null)
-            return null;
+            return ServiceResponse.Failure($"Shift with id {id} not found.");
 
-        _dbContext.Entry(savedShift).CurrentValues.SetValues(updatedShift);
+        savedShift.UpdateTimes(updatedShift.StartTime, updatedShift.EndTime);
+
         _dbContext.SaveChanges();
 
-        return savedShift;
+        return ServiceResponse.Success($"Shift with id {id} updated!.");
     }
 }

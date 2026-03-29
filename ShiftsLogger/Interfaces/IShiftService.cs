@@ -1,11 +1,12 @@
 ﻿using ShiftsLogger.Models;
+using ShiftsLogger.Services;
 
 namespace ShiftsLogger.Interfaces;
 public interface IShiftService
 {
-    public List<Shift> GetAllShifts();
-    public Shift? GetShiftById(int id);
-    public Shift CreateShift(Shift Shift);
-    public Shift UpdateShift(int id, Shift updatedShift);
-    public string? DeleteShift(int id);
+    public ServiceResponse<List<Shift>> GetAllShifts();
+    public ServiceResponse<Shifts> GetShiftById(int id);
+    public ServiceResponse<Shift> CreateShift(Shift Shift);
+    public ServiceResponse<Shift> UpdateShift(int id, Shift updatedShift);
+    public ServiceResponse DeleteShift(int id);
 }
