@@ -13,11 +13,17 @@ public class ShiftService : IShiftService
         _dbContext = dbContext;
     }
 
-    public Shift CreateShift(Shift Shift)
+    public ServiceResponse<Shift> CreateShift(Shift Shift)
     {
         var savedShift = _dbContext.Shifts.Add(Shift);
         _dbContext.SaveChanges();
-        return savedShift.Entity;
+       
+        return new ServiceResponse<Shift>
+        {
+            IsSuccessful = true,
+            Message = "Shift created successfully",
+            Data = savedShift.Entity
+        };
     }
 
     public string? DeleteShift(int id)
