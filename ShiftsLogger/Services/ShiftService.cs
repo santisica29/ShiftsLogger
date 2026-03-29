@@ -2,7 +2,7 @@
 using ShiftsLogger.Interfaces;
 using ShiftsLogger.Models;
 
-namespace ShiftsLogger;
+namespace ShiftsLogger.Services;
 
 public class ShiftService : IShiftService
 {
