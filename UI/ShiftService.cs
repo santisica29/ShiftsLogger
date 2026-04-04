@@ -9,8 +9,8 @@ internal class ShiftService
         _apiService = apiService;
     }
 
-    public async Task<Shift> GetShift()
-    {
-        var response = await _apiService.GetAsync<Shift>()
-    }
+    //public async Task<Shift> GetShift()
+    //{
+    //    var response = await _apiService.GetAsync<Shift>()
+    //}
 }
